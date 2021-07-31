@@ -4,12 +4,11 @@ const Schema = mongoose.Schema;
 const postSchema = new Schema(
     {
         title: { type: String },
-        description: { type: String },
-        author: { type: String }
+        description: { type: String }
+        
     },
     { timestamp: true }
 )
+//image: { data: Buffer, contentType: String }
 
-const post = mongoose.model("post", postSchema);
-
-module.exports = post;
+module.exports = mongoose.model("Post", postSchema);

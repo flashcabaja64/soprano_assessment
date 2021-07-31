@@ -2,24 +2,74 @@ const express = require("express");
 const Post = require("../models/post");
 const router = express.Router();
 
-router.get("/", async (req, res) => {
-    // try {
-    //     let post = new Post(req.body);
-    //     post = await post.save();
-    //     res.status(200).json({
-    //       status: 200,
-    //       data: post,
-    //     });
-    //   } catch (err) {
-    //     res.status(400).json({
-    //       status: 400,
-    //       message: err.message,
-    //     });
-    //   }
-    res.status(200).json({
-        status: 200,
-        hello: "yes"
+router.get("/", (req, res) => {
+    Post.find().then(posts => {
+        res.status(200).json({ status: 200, posts })
+    })
+    .catch(error => {
+        res.status(400).json({ status: 400, message: error.message })
     })
 })
+.post("/", (req, res) => {
+    /*
+        image, title, description
+    */
+   const post = new Post(req.body)
+
+    post.save()
+    .then(() => {
+        res.status(201).json({
+            status: 200,
+            message: "Save successful!"
+       })
+    })
+   .catch(error => res.status(400).json({ status: 400, message: error.message }))
+})
+
+router.get("/:id", (req, res) => {
+    Post.findOne({ _id: req.params.id })
+    .then(posts => {
+        if(posts) {
+            res.status(200).json({ status: 200, posts })
+        } else {
+            res.status(400).json({ status: 400, message: 'No post found.' })
+        }
+    })
+    .catch(error => {
+        res.status(400).json({ error })
+    })
+})
+.patch("/:id", (req, res) => {
+
+    Post.findByIdAndUpdate(
+        { _id: req.params.id },
+        req.body,
+        { new: true }
+    )
+    .then(posts => {
+        if(posts) {
+            res.status(200).json({ status: 200, posts })
+        } else {
+            res.status(400).json({ status: 400, message: 'No post found.' })
+        }
+    })
+    .catch(error => {
+        res.status(400).json({ status: 400, message: error.message })
+    })
+})
+.delete("/:id", (req, res) => {
+    Post.findByIdAndRemove(req.params.id)
+    .then(post => {
+        if(posts) {
+            res.status(200).json({ status: 200, posts })
+        } else {
+            res.status(400).json({ status: 400, message: 'No post found.' })
+        }
+    })
+    .catch(error => {
+        res.status(400).json({ status: 400, message: error.message })
+    })
+})
+
 
 module.exports = router;
