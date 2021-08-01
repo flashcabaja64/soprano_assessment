@@ -30,9 +30,9 @@ router.get("/:id", (req, res) => {
     Post.findOne({ _id: req.params.id })
     .then(posts => {
         if(posts) {
-            res.status(200).json({ status: 200, posts })
+            return res.status(200).json({ status: 200, posts })
         } else {
-            res.status(400).json({ status: 400, message: 'No post found.' })
+            return res.status(400).json({ status: 400, message: 'No post found.' })
         }
     })
     .catch(error => {
@@ -48,9 +48,9 @@ router.get("/:id", (req, res) => {
     )
     .then(posts => {
         if(posts) {
-            res.status(200).json({ status: 200, posts })
+            return res.status(200).json({ status: 200, posts })
         } else {
-            res.status(400).json({ status: 400, message: 'No post found.' })
+            return res.status(400).json({ status: 400, message: 'No post found.' })
         }
     })
     .catch(error => {
@@ -59,11 +59,11 @@ router.get("/:id", (req, res) => {
 })
 .delete("/:id", (req, res) => {
     Post.findByIdAndRemove(req.params.id)
-    .then(post => {
+    .then(posts => {
         if(posts) {
-            res.status(200).json({ status: 200, posts })
+            return res.status(200).json({ status: 200, posts })
         } else {
-            res.status(400).json({ status: 400, message: 'No post found.' })
+            return res.status(400).json({ status: 400, message: 'No post found.' })
         }
     })
     .catch(error => {
