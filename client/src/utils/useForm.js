@@ -8,7 +8,6 @@ const useForm = (initialState, callback, validate) => {
   const handleChange = (e) => {
     const { id, value } = e.target;
     setValues({ ...values, [id]: value})
-    console.log(values)
   } 
 
   const handleSubmit = e => {

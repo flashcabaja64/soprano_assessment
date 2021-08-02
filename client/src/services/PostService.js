@@ -1,8 +1,8 @@
 import config from '../config'
 
 const PostService = {
-  getPosts() {
-    return fetch(`${config.API_ENDPOINT}/posts`, {
+  getPosts(id) {
+    return fetch(`${config.API_ENDPOINT}/posts/${id}`, {
       method: "GET",
       headers: {
         'content-type': 'application/json'

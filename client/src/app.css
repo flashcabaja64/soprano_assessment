@@ -24,7 +24,7 @@ code {
 
 .register,
 .login {
-  margin: 0 auto;
+  margin-top: 18rem;
   height: 100%;
   padding: 1rem;
 }

@@ -14,9 +14,10 @@ const router = express.Router();
 //     gfs.collection("image");
 // })
 
-router.get("/", async (req, res) => {
+router.get("/:id", async (req, res) => {
     try {
-        const posts = await Post.find();
+        console.log(req.body)
+        const posts = await Post.find({ id: req.params.id });
         res.status(200).json({ status: 200, posts })
         
     } catch(error) {

@@ -55,7 +55,10 @@ router.post("/register", async (req, res) => {
       },
       (err, token) => {
         if (err) throw err;
-        res.status(200).json({ token });
+        res.status(200).json({ 
+          token,
+          message: "Registration success"
+        });
       }
     );
   } catch (error) {
@@ -116,7 +119,9 @@ router.post("/login", async (req, res) => {
       (err, token) => {
         if (err) throw err;
         res.status(200).json({
-          token
+          token,
+          id: user._id,
+          message: 'Login success'
         });
       }
     );

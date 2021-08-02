@@ -5,7 +5,8 @@ const postSchema = new Schema({
     title: { type: String },
     description: { type: String },
     image: { type: String },
-    fileName: { type: String }
+    fileName: { type: String },
+    id: { type: String }
 }, { 
     timestamps: true 
 })
