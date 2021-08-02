@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import empty from '../../assets/empty.jpg'
 import { Dimmer, Loader, Card, Image, Button, Grid } from 'semantic-ui-react';
 
+
 const PostList = ({ posts, deletePost }) => {
   return (
     <div style={{ marginTop:"2rem" }}>
