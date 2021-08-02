@@ -1,24 +1,45 @@
 const express = require("express");
+//const mongoose = require("mongoose");
+//const Grid = require("gridfs-stream");
 const Post = require("../models/post");
+//const upload = require("../middleware/upload");
+//const fs = require('fs');
 const router = express.Router();
 
-router.get("/", (req, res) => {
-    Post.find().then(posts => {
+// let gfs;
+// const connection = mongoose.connection;
+
+// connection.once("open", () => {
+//     gfs = Grid(connection.db, mongoose.mongo);
+//     gfs.collection("image");
+// })
+
+router.get("/", async (req, res) => {
+    try {
+        const posts = await Post.find();
         res.status(200).json({ status: 200, posts })
-    })
-    .catch(error => {
+        
+    } catch(error) {
         res.status(400).json({ status: 400, message: error.message })
-    })
+    }
+
 })
 .post("/", (req, res) => {
     /*
         image, title, description
     */
+//    if(req.file) {
+//         req.body.fileName = req.file.filename;
+//         let base64 = fs.readFileSync(req.file)
+//         let imageFile = base64.toString('base64')
+//         return req.body.image = imageFile
+//    }
+//    console.log(req.body)
    const post = new Post(req.body)
 
     post.save()
     .then(() => {
-        res.status(201).json({
+        res.status(200).json({
             status: 200,
             message: "Save successful!"
        })

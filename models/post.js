@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const postSchema = new Schema({
     title: { type: String },
     description: { type: String },
-    image: { type: String }
+    image: { type: String },
+    fileName: { type: String }
 }, { 
     timestamps: true 
 })

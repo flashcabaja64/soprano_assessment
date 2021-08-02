@@ -4,7 +4,8 @@ import './app.css'
 
 import Home from './components/Home'
 import Header from './components/Header'
-import Login from './components/Login'
+import Register from './components/Register'
+import Login from './components/Login';
 import Post from './components/Post/Post'
 
 function App() {
@@ -14,6 +15,8 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/posts" component={Post} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
         </Switch>
     </div>
   );
