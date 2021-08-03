@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import useForm from '../utils/useForm';
-import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
+import { Button, Form, Input, Grid, Header, Message, Segment, Image } from 'semantic-ui-react';
+import Cropper from 'react-easy-crop';
+import empty from '../assets/empty.jpg'
 import { registerUser } from '../utils/validations';
 import ValidationError from '../utils/ValidationError';
 import UserService from '../services/UserService';
+import getCroppedImg from '../utils/cropImage'
  
 const Register = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [resStatus, setResStatus] = useState('');
   const history = useHistory();
+  const [crop, setCrop] = useState({ x: 0, y: 0 })
+  const [zoom, setZoom] = useState(1)
+  const [img, setImg] = useState(null);
+  const [croppedImg, setCroppedImg] = useState(null)
 
   const { handleChange, handleSubmit, values, errors } = useForm(
     {
@@ -28,38 +35,74 @@ const Register = () => {
   function submit() {
     setLoading(true);
 
-    UserService.registerUser({
-      name: values.name,
-      email: values.email,
-      password: values.password
-    })
-      .then((res) => {
-        if(res.status === 200 || res.message.includes("success")) {
+    getCroppedImg(img, croppedImg).then((image) => {
+      UserService.registerUser({
+        name: values.name,
+        email: values.email,
+        password: values.password,
+        image: image
+      })
+        .then((res) => {
+          if(res.status === 200 || res.message.includes("success")) {
+            setLoading(false);
+            setError(false);
+            setResStatus('Email registration successful. Redirecting you to the Login page.')
+            setTimeout(() => history.push('/login'), 3000)
+          } else {
+            setError(true);
+            setResStatus(res.message);
+          }
           setLoading(false);
-          setError(false);
-          setResStatus('Email registration successful. Redirecting you to the Login page.')
-          setTimeout(() => history.push('/login'), 3000)
-        } else {
+        })
+        .catch((err) => {
           setError(true);
-          setResStatus(res.message);
-        }
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(true);
-        setResStatus(err.message);
-      })
+          setResStatus(err.message);
+        })
+    })
+  }
+
+  const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
+    setCroppedImg(croppedAreaPixels)
+  }, [])
+
+  const addFile = e => {
+    const image = e.target.files[0];
+    const reader = new FileReader();
+
+    if(image) {
+      reader.onload = e => {
+        setImg(e.target.result);
+      }
+      reader.readAsDataURL(e.target.files[0]);
+    } 
   }
 
   return (
     <div className="register">
-      <Grid centered columns={3} textAlign="center" verticalAlign="middle">
+      <Grid 
+        centered 
+        columns={img !== null ? 3 : 2} 
+        textAlign="center" 
+        verticalAlign="middle"
+      >
         <Grid.Column>
           <Header as="h2" textAlign="center">
             Register
           </Header>
+          
           <Form size="large" onSubmit={handleSubmit}>
             <Segment stacked>
+            {/* <Image src={empty} avatar size="mini"/> */}
+              <Form.Input
+                fluid
+                hidden
+                label="File types: jpg, jpeg, png"
+                name="file"
+                type="file"
+                id="image"
+                //value={values.image}
+                onChange={addFile}
+              />
               <Form.Input
                 fluid
                 icon="user"
@@ -121,6 +164,31 @@ const Register = () => {
             Already Registered? <Link to="/login">Login</Link>
           </Message>
         </Grid.Column>
+        {img !== null ? (
+          <Grid.Column>
+          <Segment stacked>
+            <Image src={img} />
+            <Cropper
+              image={img}
+              crop={crop}
+              zoom={zoom}
+              cropShape='round'
+              aspect={4/4}
+              onCropChange={setCrop}
+              onCropComplete={onCropComplete}
+              onZoomChange={setZoom}
+              objectFit="horizontal-cover"
+            />
+            </Segment>
+            <Header as="h3" textAlign="center">
+              Please drag or scroll to resize image.
+            </Header>
+          </Grid.Column>
+        )
+          : 
+          (<></>)
+        }
+          
       </Grid>
     </div>
   )

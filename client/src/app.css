@@ -22,9 +22,18 @@ code {
   margin-top: 7rem;
 }
 
-.register,
 .login {
   margin-top: 18rem;
   height: 100%;
   padding: 1rem;
+}
+
+.register {
+  margin-top: 15rem;
+  height: 100%;
+  padding: 1rem;
+}
+
+.reactEasyCrop_Container {
+  position: relative;
 }

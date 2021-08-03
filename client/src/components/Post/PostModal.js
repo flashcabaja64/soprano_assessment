@@ -61,7 +61,7 @@ const PostModal = ({ modal, closeModal }) => {
       <Modal.Header>Add a Post</Modal.Header>
       <Modal.Content>
         <Image 
-          size="large" 
+          size="medium" 
           src={img} 
           centered 
           style={{ display: img !== null ? 'flex' : 'none' }}

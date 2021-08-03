@@ -4,11 +4,13 @@ import { Container, Button } from 'semantic-ui-react';
 import PostService from '../../services/PostService';
 import PostList from './PostList';
 import PostModal from './PostModal';
-import EditPost from './EditPost';
+import EditPostModal from './EditPostModal';
 
 const Post = () => {
   const [posts, setPosts] = useState([]);
+  const [editPost, setEditPost] = useState([]);
   const [modal, setModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
   
   useEffect(() => {
     PostService.getPosts(PostService.getUserId('id'))
@@ -25,8 +27,12 @@ const Post = () => {
       .catch(error => console.log(error))
   }
 
-  const editPost = (id) => {
-
+  const getEditPost = (id) => {
+    
+    let singlePost = posts.find(post => post._id === id);
+    setEditPost(singlePost);
+    setEditModal(true);
+    console.log(singlePost)
   }
   
   return (
@@ -39,10 +45,10 @@ const Post = () => {
             onClick={() => setModal(true)}
             content="Add Post"
           /> 
-          <PostModal 
+          {/* <PostModal 
             modal={modal}
             closeModal={() => setModal(false)}
-          />
+          /> */}
         </>
         :
         <>
@@ -55,11 +61,17 @@ const Post = () => {
             modal={modal}
             closeModal={() => setModal(false)}
           />
-          <EditPost 
-            modal={modal}
-            closeModal={() => setModal(false)}
+          <EditPostModal
+            modal={editModal}
+            editPost={editPost}
+            closeModal={() => setEditModal(false)}
           />
-          <PostList posts={posts} deletePost={deletePost} />
+          <PostList 
+            posts={posts} 
+            deletePost={deletePost} 
+            getEditPost={getEditPost}
+            modal={() => setEditModal(true)}
+          />
         </>  
       }
     </Container>

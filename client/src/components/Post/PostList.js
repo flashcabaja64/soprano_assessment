@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import empty from '../../assets/empty.jpg'
-import { Dimmer, Loader, Card, Image, Button, Grid } from 'semantic-ui-react';
+import { Dimmer, Loader, Card, Image, Button } from 'semantic-ui-react';
 
-
-const PostList = ({ posts, deletePost }) => {
+const PostList = ({ posts, deletePost, getEditPost }) => {
   return (
     <div style={{ marginTop:"2rem" }}>
       {
@@ -25,14 +24,14 @@ const PostList = ({ posts, deletePost }) => {
                   <Card.Description>{post.description}</Card.Description>
                 </Card.Content>
 
-                  <Card.Content extra textAlign="center">
-                    <Button color="green" size="small">
-                      Edit
-                    </Button>
-                    <Button color="red" size="small" onClick={() => deletePost(post._id)}>
-                      Delete
-                    </Button>
-                  </Card.Content>
+                <Card.Content extra textAlign="center">
+                  <Button color="green" size="small" onClick={() => getEditPost(post._id)}>
+                    Edit
+                  </Button>
+                  <Button color="red" size="small" onClick={() => deletePost(post._id)}>
+                    Delete
+                  </Button>
+                </Card.Content>
               </Card>
             ))}
           </Card.Group>

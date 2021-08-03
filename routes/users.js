@@ -9,9 +9,9 @@ const AuthService = require("../services/AuthService");
 const auth = require("../middleware/auth");
 
 router.post("/register", async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, image } = req.body;
 
-  for (const field of ['name', 'email', 'password']) {
+  for (const field of ['name', 'email', 'password', ]) {
     if(!req.body[field]) {
       return res.status(400).json({ 
         status: 400, 
@@ -38,7 +38,7 @@ router.post("/register", async (req, res) => {
       })
     }
 
-    user = new Users({ name, email, password });
+    user = new Users({ name, email, password, image });
 
     user.password = await UserService.hashPassword(password)
 

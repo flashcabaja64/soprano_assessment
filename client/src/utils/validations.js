@@ -3,20 +3,20 @@ export function addingPost(values) {
   let title = values.title.trim();
   let desc = values.description.trim();
 
-  if(title.length < 5) {
-    errors.title = "Please enter more than 5 characters";
+  if(title.length < 4) {
+    errors.title = "Please enter more than 4 characters";
   } else if(title === '') {
     errors.title = "Title required";
   } else if(title.length > 75) {
     errors.title = 'Title is over maximum accepted length'
   }
 
-  if(desc.length < 5) {
-    errors.description = "Please enter more than 5 characters";
+  if(desc.length < 4) {
+    errors.description = "Please enter more than 4 characters";
   } else if(desc === '') {
     errors.description = "Title required";
   } else if(desc.length > 250) {
-    errors.description = 'Description is over maximum accepted length'
+    errors.description = 'Description is over maximum accepted length (250)'
   }
   return errors
 }
@@ -84,6 +84,25 @@ export function loginUser(values) {
     errors.password = 'Password must be more than 8 characters'
   } else if (!REGEX_UPPER_LOWER_NUMBER_SPECIAL.test(password)) {
     errors.password = 'Password must contain one upper case, lower case, number and special character';
+  }
+  return errors
+}
+
+export function editPostModal(values) {
+  let errors = {};
+  let title = values.title.trim();
+  let description = values.description.trim();
+
+  if(title.length === 0) {
+    errors.title = 'Title is required';
+  } else if(title.length > 100) {
+    errors.title = 'Maximum characters exceeded. (100)'
+  }
+
+  if(description.length === 0) {
+    errors.description = 'Please type a description'
+  } else if(description.length > 250) {
+    errors.description = 'Maximum characters exceeded. (250)'
   }
   return errors
 }

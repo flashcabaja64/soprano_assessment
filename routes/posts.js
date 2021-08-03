@@ -16,26 +16,14 @@ const router = express.Router();
 
 router.get("/:id", async (req, res) => {
     try {
-        console.log(req.body)
         const posts = await Post.find({ id: req.params.id });
         res.status(200).json({ status: 200, posts })
         
     } catch(error) {
         res.status(400).json({ status: 400, message: error.message })
     }
-
 })
 .post("/", (req, res) => {
-    /*
-        image, title, description
-    */
-//    if(req.file) {
-//         req.body.fileName = req.file.filename;
-//         let base64 = fs.readFileSync(req.file)
-//         let imageFile = base64.toString('base64')
-//         return req.body.image = imageFile
-//    }
-//    console.log(req.body)
    const post = new Post(req.body)
 
     post.save()
@@ -48,7 +36,7 @@ router.get("/:id", async (req, res) => {
    .catch(error => res.status(400).json({ status: 400, message: error.message }))
 })
 
-router.get("/:id", (req, res) => {
+router.get("/post/:id", (req, res) => {
     Post.findOne({ _id: req.params.id })
     .then(posts => {
         if(posts) {

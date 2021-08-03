@@ -34,7 +34,7 @@ const Login = () => {
         setLoading(false);
         setResStatus('Login successful!')
         UserService.saveUserId(res.id);
-        //setTimeout(() => history.push('/posts'), 3000)
+        setTimeout(() => history.push('/posts'), 3000)
       } else {
         console.log(res)
         setResStatus(res.message);
