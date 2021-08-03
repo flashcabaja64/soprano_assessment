@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
+import { UserContext } from './context/UserContext';
 import useForm from '../utils/useForm';
 import { loginUser } from '../utils/validations';
 import ValidationError from '../utils/ValidationError';
@@ -10,6 +11,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [resStatus, setResStatus] = useState('');
   const history = useHistory();
+  const User = useContext(UserContext);
 
   const { handleChange, handleSubmit, values, errors } = useForm(
     {
@@ -34,9 +36,9 @@ const Login = () => {
         setLoading(false);
         setResStatus('Login successful!')
         UserService.saveUserId(res.id);
+        User.processLogin(res);
         setTimeout(() => history.push('/posts'), 3000)
       } else {
-        console.log(res)
         setResStatus(res.message);
       }
       setLoading(false);

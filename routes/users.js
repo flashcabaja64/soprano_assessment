@@ -69,6 +69,24 @@ router.post("/register", async (req, res) => {
     });
   }
 })
+.get("/:id", async (req, res) => {
+  const userID = req.params.id
+
+  try {
+    const user = await Users.find({ _id: userID })
+     if(user) {
+       return res.status(200).json({
+         status: 200,
+         user
+       })
+     }
+  } catch(err) {
+    res.status(400).json({
+      status: 400,
+      message: 'Failed to find user.'
+    })
+  }
+})
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -133,15 +151,5 @@ router.post("/login", async (req, res) => {
     })
   } 
 })
-
-router.get("/me", auth, async (req, res) => {
-  try {
-    // request.user is getting fetched from Middleware after token authentication
-    const user = await Users.findById(req.user.id);
-    res.json(user);
-  } catch (e) {
-    res.send({ message: "Error in Fetching user" });
-  }
-});
 
 module.exports = router;

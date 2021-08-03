@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import mime from 'mime-types';
 import { Button, Form, Image, Modal, Segment } from 'semantic-ui-react';
-import useForm from '../../utils/useForm';
-import Validations from '../../utils/validations'
 import PostService from '../../services/PostService';
+import UserService from '../../services/UserService';
 
 const PostModal = ({ modal, closeModal }) => {
   const [img, setImg] = useState(null);
@@ -24,7 +23,7 @@ const PostModal = ({ modal, closeModal }) => {
         description: values.description,
         image: img,
         fileName: values.image.name,
-        id: PostService.getUserId('id')
+        id: UserService.getUserId('id')
       }
 
       closeModal();

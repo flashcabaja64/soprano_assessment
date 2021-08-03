@@ -38,9 +38,6 @@ const PostService = {
       method: "DELETE",
       headers: { 'content-type': "application/json" }
     }).then(res => !res.status === 200 ? res.json().then(e => Promise.reject(e)) : undefined)
-  },
-  getUserId(id) {
-    return window.localStorage.getItem(id)
   }
 };
 

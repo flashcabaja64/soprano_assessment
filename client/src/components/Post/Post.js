@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Button } from 'semantic-ui-react';
 
+import UserService from '../../services/UserService';
 import PostService from '../../services/PostService';
 import PostList from './PostList';
 import PostModal from './PostModal';
@@ -13,7 +14,7 @@ const Post = () => {
   const [editModal, setEditModal] = useState(false);
   
   useEffect(() => {
-    PostService.getPosts(PostService.getUserId('id'))
+    PostService.getPosts(UserService.getUserId('id'))
       .then(post => setPosts(...posts, post.posts))
       .catch(err => console.log(err))
   }, [])

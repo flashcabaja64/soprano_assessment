@@ -15,17 +15,23 @@ const UserService = {
       body: JSON.stringify(data)
     }).then(res => !res.status === 200 ? res.json().then(e => Promise.reject(e)) : res.json())
   },
-  editPost() {
-
-  },
-  deletePost(id) {
-    return fetch(`${config.API_ENDPOINT}/posts/${id}`, {
-      method: "DELETE",
+  getUserProfile(id) {
+    return fetch(`${config.API_ENDPOINT}/user/${id}`, {
+      method: "GET",
       headers: { 'content-type': "application/json" }
-    }).then(res => !res.status === 200 ? res.json().then(e => Promise.reject(e)) : undefined)
+    }).then(res => !res.status === 200 ? res.json().then(e => Promise.reject(e)) : res.json())
   },
   saveUserId(id) {
     window.localStorage.setItem('id', id)
+  },
+  getUserId(id) {
+    return window.localStorage.getItem(id)
+  },
+  clearUserId() {
+    window.localStorage.removeItem('id')
+  },
+  hasUserId() {
+    return !!UserService.getUserId('id')
   }
 };
 
