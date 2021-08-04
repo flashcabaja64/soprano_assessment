@@ -29,27 +29,25 @@ const Post = () => {
   }
 
   const getEditPost = (id) => {
-    
-    let singlePost = posts.find(post => post._id === id);
-    setEditPost(singlePost);
-    setEditModal(true);
-    console.log(singlePost)
+      let singlePost = posts.find(post => post._id === id);
+      setEditPost(singlePost);
+      setEditModal(true);
   }
   
   return (
     <Container fluid className="home" textAlign="center">    
       {
-        !posts.length ? 
+        UserService.hasUserId() && !posts.length ? 
         <>
           <Button
             primary
             onClick={() => setModal(true)}
             content="Add Post"
           /> 
-          {/* <PostModal 
+          <PostModal 
             modal={modal}
             closeModal={() => setModal(false)}
-          /> */}
+          />
         </>
         :
         <>

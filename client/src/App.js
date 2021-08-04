@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import PrivateRoute from '../src/components/routes/PrivateRoute'
 import './app.css'
 
 import Home from './components/Home'
@@ -11,13 +12,13 @@ import Post from './components/Post/Post'
 function App() {
   return (
     <div className="App">
-        <Header />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/posts" component={Post} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Register} />
-        </Switch>
+      <Header />
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <PrivateRoute exact path="/posts" component={Post} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
+      </Switch>
     </div>
   );
 }

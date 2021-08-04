@@ -1,9 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import useForm from '../utils/useForm';
-import { Button, Form, Input, Grid, Header, Message, Segment, Image } from 'semantic-ui-react';
+import { Button, Form, Grid, Header, Message, Segment, Image } from 'semantic-ui-react';
 import Cropper from 'react-easy-crop';
-import empty from '../assets/empty.jpg'
 import { registerUser } from '../utils/validations';
 import ValidationError from '../utils/ValidationError';
 import UserService from '../services/UserService';

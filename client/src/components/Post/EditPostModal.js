@@ -3,31 +3,27 @@ import mime from 'mime-types';
 import { Button, Form, Image, Modal, Segment } from 'semantic-ui-react';
 
 import PostService from '../../services/PostService';
-import ValidationError from '../../utils/ValidationError';
 
 const EditPostModal = ({ closeModal, modal, editPost }) => {
   const [post, setPost] = useState([])
-  const [values, setValues] = useState({ title: '', description: ''})
+  const [values, setValues] = useState({ title: '', description: '' })
   const [img, setImg] = useState(null);
   const [authorized] = useState(['image/jpeg', 'image/png', 'image/jpg']);
 
 useEffect(() => {
-  setPost(editPost)
-  setImg(post.image);
-  setValues({
-    title: post.title,
-    description: post.description,
-    image: post.image
-  })
-  console.log(post)
-  
+    setPost(editPost)
+    setImg(post.image);
+    setValues({
+      title: post.title,
+      description: post.description,
+      image: post.image
+    })
 }, [modal])
 
 const handleChange = (e) => {
   const { id, value } = e.target;
   setValues({ ...values, [id]: value})
-} 
-
+};
 
 const addFile = e => {
   const image = e.target.files[0];
@@ -74,7 +70,7 @@ const sendPost = () => {
       <Modal.Content>
         <Image 
           size="medium" 
-          src={img == undefined ? '' : img} 
+          src={img === undefined ? '' : img} 
           centered 
           style={{ display: img !== null ? 'flex' : 'none' }}
         />

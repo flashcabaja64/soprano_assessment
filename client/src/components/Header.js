@@ -1,15 +1,33 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Image, Menu } from "semantic-ui-react";
 import { Link, useHistory } from 'react-router-dom';
 import UserService from '../services/UserService';
-import { UserContext } from './context/UserContext';
+import empty from '../assets/empty.jpg'
 
 const Header = () => {
   const history = useHistory();
   const [data, setData] = useState('')
-  const [user, setUser] = useState()
-  const User = useContext(UserContext);
-  
+  const [profile, setProfile] = useState()
+
+  useEffect(() => {
+    if(UserService.hasUserId()) {
+      async function fetchProfile() {
+        try {
+          let data = UserService.getUserId('id');
+          let response = await UserService.getUserProfile(data)
+          
+          await setProfile({
+            name: response.user[0].name,
+            image: response.user[0].image
+          })
+          setData('success')
+        } catch (err) {
+          console.log(err)
+        }
+      }
+      fetchProfile();
+    }
+  },[data])
 
   const handleLogout = () => {
     UserService.clearUserId();
@@ -20,9 +38,30 @@ const Header = () => {
   const renderLogoutLink = () => {
     return (
       <Menu.Menu position="right">
-        {/* <Image src={user.image}/> */}
-        {/* <p>{user.name}</p> */}
-        <Menu.Item as={Link} name="Logout" onClick={handleLogout}/>
+        {
+          !profile ?
+          <Image 
+            src={empty}
+            avatar
+            size="mini"
+            verticalAlign="bottom"
+            style={{ marginTop: '1.3rem' }}
+          />
+          :
+          <Image 
+            src={profile.image}
+            avatar
+            verticalAlign="bottom"
+            style={{ marginTop: '1.3rem' }}
+          />
+        }
+        <Menu.Item>
+        
+        <span>{!profile ? '' : profile.name}</span>
+        </Menu.Item>
+        
+        <Menu.Item as={Link} to="/posts" name="Posts"/>
+        <Menu.Item name="Logout" onClick={handleLogout}/>
       </Menu.Menu>
     )
   }

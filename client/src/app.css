@@ -19,7 +19,14 @@ code {
 }
 
 .home {
-  margin-top: 7rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+  font-size: 50px;
+  background-color: azure;
 }
 
 .login {

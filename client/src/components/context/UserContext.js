@@ -4,14 +4,23 @@ import UserService from '../../services/UserService';
 export const UserContext = createContext()
 
 export const UserProvider = props => {
-
   const [data, setAuthData] = useState(null);
   const [profile, setProfile] = useState();
 
   const processLogin = (res) => {
-    UserService.getUserId('id');
     setAuthData(res.token);
-    setProfile(res.id)
+  }
+
+  const getCurrentUser = () => {
+    let user_id = UserService.getUserId('id');
+    UserService.getUserProfile(user_id)
+      .then(async res => {
+        await setProfile({
+          name: res.name,
+          image: res.image
+        })
+      })
+      .catch(err => console.log(err))
   }
 
   const processLogout = () => {
@@ -22,6 +31,7 @@ export const UserProvider = props => {
   const value = {
     processLogin,
     processLogout,
+    getCurrentUser,
     data,
     profile
   }
